@@ -8,15 +8,26 @@ reg add "HKCU\Control Panel\Desktop" /v SCRNSAVE.EXE /t REG_SZ /d "C:\Windows\Sy
 net accounts /lockoutthreshold:3
 net accounts /lockoutduration:3
 net accounts /lockoutwindow:3
+net accounts /minpwlen:8
 
 :: Password policy - change every 3 months
 net accounts /maxpwage:90
 net accounts /minpwage:1
 net accounts /uniquepw:0
 
-:: Enforce password complexity
-echo Enforcing password complexity...
-secedit /configure /db secedit.sdb /cfg "%~dp0complexity.inf" /quiet
+:: Create temp INF file to enforce password complexity and min length
+echo Creating password policy...
+> "%~dp0complexity.inf" (
+    echo [System Access]
+    echo PasswordComplexity = 1
+    echo MinimumPasswordLength = 8
+)
+
+:: Apply password policy
+secedit /configure /db "%~dp0secedit.sdb" /cfg "%~dp0complexity.inf" /quiet
+
+:: Optional: delete temp INF file
+del /f /q "%~dp0complexity.inf"
 
 :: Create secure admin account
 net user ITAdmin admin@IT /add
