@@ -1,4 +1,11 @@
 @echo off
+
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Please run this tool as Administrator.
+    powershell -Command "Start-Process -Verb runAs -FilePath '%~f0'"
+    exit
+)
 :: Auto-lock screen after 3 minutes
 reg add "HKCU\Control Panel\Desktop" /v ScreenSaveTimeOut /t REG_SZ /d 180 /f
 reg add "HKCU\Control Panel\Desktop" /v ScreenSaveActive /t REG_SZ /d 1 /f
