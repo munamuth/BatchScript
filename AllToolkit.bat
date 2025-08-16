@@ -14,9 +14,11 @@ echo 6. Local Policy
 echo 7. System File Checker
 echo 8. Time Sync / NTP Fix
 echo 9. Disk Defragmentation
+echo 10. Add/Change Server User
 echo 0. Exit
 echo.
 set /p choice="Select an option (0-9): "
+if "%choice%"=="10" goto option10
 if "%choice%"=="9" goto option9
 if "%choice%"=="8" goto option8
 if "%choice%"=="7" goto option7
@@ -91,6 +93,11 @@ goto menu
 :option9
 echo Starting Disk Defragmentation...
 start "" "DiskDefragTool.bat"
+goto menu
+
+:option10
+echo Starting Add/Change Server User...
+start "" "AddCredential.bat"
 goto menu
 
 
