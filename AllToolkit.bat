@@ -15,9 +15,11 @@ echo 7. System File Checker
 echo 8. Time Sync / NTP Fix
 echo 9. Disk Defragmentation
 echo 10. Add/Change Server User
+echo 11. IP Tools
 echo 0. Exit
 echo.
-set /p choice="Select an option (0-9): "
+set /p choice="Select an option (0-11): "
+if "%choice%"=="10" goto option11
 if "%choice%"=="10" goto option10
 if "%choice%"=="9" goto option9
 if "%choice%"=="8" goto option8
@@ -98,6 +100,11 @@ goto menu
 :option10
 echo Starting Add/Change Server User...
 start "" "AddCredential.bat"
+goto menu
+
+:option11
+echo Starting IP Tools
+start "" "IPTool.bat"
 goto menu
 
 
